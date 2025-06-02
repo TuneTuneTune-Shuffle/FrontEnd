@@ -38,9 +38,14 @@ export default function Home() {
     <main className="min-h-screen bg-gray-950 text-white">
       <nav className="bg-gray-900 p-4 flex justify-between items-center shadow">
         <span className="text-xl font-bold text-white">TuneTuneTune Shuffle</span>
-        <Button variant="link" onClick={() => router.push('/signup')}>
-          Sign Up
-        </Button>
+        <div className="space-x-4">
+          <Button variant="link" onClick={() => router.push('/login')}>
+            Log In
+          </Button>
+          <Button variant="link" onClick={() => router.push('/signup')}>
+            Sign Up
+          </Button>
+        </div>
       </nav>
 
       <div className="p-6">
