@@ -104,7 +104,6 @@ export default function Home() {
       </Link>
     </div>
   </div>
-
   {/* Right side - Sign Up */}
   <div className="flex-1 flex justify-end">
     <Link 
