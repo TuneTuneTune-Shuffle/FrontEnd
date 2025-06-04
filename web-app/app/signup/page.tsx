@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
+import { signup } from '@/lib/api';
+
 
 export default function SignupPage() {
   const [email, setEmail] = useState('');
@@ -14,30 +16,18 @@ export default function SignupPage() {
   const router = useRouter();
 
   const handleSignup = async () => {
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
+  if (password !== confirmPassword) {
+    setError("Passwords do not match");
+    return;
+  }
 
-    try {
-      const response = await fetch('/api/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.message || 'Signup failed');
-      }
-
-      router.push('/');
-    } catch (err: any) {
-      setError(err.message);
-    }
-  };
+  try {
+    await signup(email, password);
+    router.push('/');
+  } catch (err: any) {
+    setError(err.message);
+  }
+    };
 
   return (
     <main className="min-h-screen bg-gray-950 text-white">
