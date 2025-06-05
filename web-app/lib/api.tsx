@@ -1,7 +1,6 @@
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL!;
 
 export async function signup(email: string, password: string) {
-    console.log("📡 Hitting backend at:", `${BASE_URL}/api/signup`);
     const response = await fetch(`${BASE_URL}/api/signup`, {
         method: 'POST',
         headers: {
