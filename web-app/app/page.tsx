@@ -35,15 +35,20 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-950 text-white">
+    <main className="min-h-screen bg-gray-950 text-white item items-center justify-center"> 
       <nav className="bg-gray-900 p-4 flex justify-between items-center shadow">
         <span className="text-xl font-bold text-white">TuneTuneTune Shuffle</span>
-        <Button variant="link" onClick={() => router.push('/signup')}>
+        <div>
+          <Button variant="link" onClick={() => router.push('/signup')}>
           Sign Up
-        </Button>
+          </Button>
+          <Button variant="link" onClick={() => router.push('/login')}>
+            Login
+          </Button>
+        </div>
       </nav>
 
-      <div className="p-6">
+      <div className="p-6 h-screen flex flex-col items-center justify-center">
         <motion.h1
           className="text-4xl font-bold mb-6 text-center"
           initial={{ opacity: 0, y: -20 }}
@@ -53,6 +58,14 @@ export default function Home() {
         </motion.h1>
 
         <div className="max-w-xl mx-auto">
+          <div>
+            <Button>
+              Upload Your Audio File
+            </Button>
+            <Button>
+              Record Audio
+            </Button>
+          </div>
           <Card className="bg-gray-900 shadow-xl rounded-2xl">
             <CardContent className="p-6 space-y-4">
               <Input
