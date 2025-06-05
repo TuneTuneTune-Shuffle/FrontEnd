@@ -1,3 +1,12 @@
+## Importante
+
+Aquí se tiene un '.env.local' con la siguiente información:
+
+NEXT_PUBLIC_API_URL=[<El inicio de una url,> ej=http://172.20.100.143 (IP de nuestro servidor de NGINX)]
+
+
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
