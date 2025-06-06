@@ -18,6 +18,8 @@ export function useAuth(): AuthResult {
     const token = localStorage.getItem("token");
     if (token) {
       try {
+        console.log("Token info:", { token, userEmail });
+
         const decoded: any = jwtDecode(token);
         const exp = decoded.exp * 1000;
         if (Date.now() < exp) {

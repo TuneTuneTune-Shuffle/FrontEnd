@@ -75,7 +75,7 @@ export default function Home() {
   },
 };
 
-  if (!isReady) return null;
+  if (!isReady) return null;  
   return (
 <main className="min-h-screen bg-gre-500">
 <nav className="bg-gradient-to-r from-gray-900 to-gray-800 p-4 flex items-center shadow-lg border-b border-gray-700">
