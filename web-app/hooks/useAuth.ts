@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 interface AuthResult {
   userEmail: string | null;
