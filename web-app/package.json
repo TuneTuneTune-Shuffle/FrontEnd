@@ -16,8 +16,10 @@
     "@mui/x-charts": "^8.5.0",
     "framer-motion": "^12.15.0",
     "next": "15.3.3",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^19.1.0",
+    "react-audio-voice-recorder": "^2.2.0",
+    "react-dom": "^19.1.0",
+    "react-media-recorder": "^1.7.1",
     "tailwind-merge": "^3.3.0"
   },
   "devDependencies": {
