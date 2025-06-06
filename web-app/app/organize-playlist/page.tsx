@@ -7,6 +7,10 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { PieChart, BarChart } from '@mui/x-charts';
 import { ArrowLeft, PlaylistAddCheck, Shuffle, Timeline, LibraryMusic } from '@mui/icons-material';
+import Link from 'next/link';
+import HomeIcon from '@mui/icons-material/Home';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import PlaylistIcon from '@mui/icons-material/PlaylistPlay';
 
 // Mock data
 const mockPlaylists = [
@@ -66,8 +70,60 @@ export default function PlaylistOrganizerPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-900 p-4 md:p-6">
-      <div className="max-w-7xl mx-auto">
+    <main className="min-h-screen bg-gray-900 p-4 md:p-0">
+      <nav className="bg-gradient-to-r from-gray-900 to-gray-800 p-4 flex items-center shadow-lg border-b border-gray-700">
+        {/* Logo/Brand - Left section */}
+        <div className="flex-1">
+          <Link href="/" className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-sm">T</span>
+            </div>
+            <span className="text-xl font-bold text-white">TuneTuneTune Shuffle</span>
+          </Link>
+        </div>
+        
+        {/* Navigation Links - Center section */}
+        <div className="flex-1 flex justify-center">
+          <div className="hidden md:flex space-x-1">
+            <Link 
+              href="/"
+              className="text-white hover:text-blue-400 transition-all duration-200 px-4 py-2 rounded-lg hover:bg-gray-800/50 font-medium flex items-center"
+            >
+              <HomeIcon className="inline mr-1" />
+              Home
+            </Link>
+            <Link 
+              href="/analyze"
+              className="text-white hover:text-green-400 transition-all duration-200 px-4 py-2 rounded-lg hover:bg-gray-800/50 font-medium flex items-center"
+            >
+              <BarChartIcon className="inline mr-1" />
+              Analyze
+            </Link>
+            <Link 
+              href="/organize-playlist"
+              className="text-white hover:text-purple-400 transition-all duration-200 px-4 py-2 rounded-lg hover:bg-gray-800/50 font-medium flex items-center"
+            >
+              <PlaylistIcon className="inline mr-1" />
+              Organize Playlist
+            </Link>
+          </div>
+        </div>
+        {/* Right side - Sign Up */}
+        <div className="flex-1 flex justify-end">
+          <Link 
+            href="/signup"
+            className="border border-white/20 text-white hover:bg-white/10 hover:border-white/40 px-4 py-2 rounded-lg transition-all duration-200"
+          >
+            Sign Up
+          </Link>
+          <Link
+            href="/login"
+            className='ml-4 border border-white/20 text-white hover:bg-white/10 hover:border-white/40 px-4 py-2 rounded-lg transition-all duration-200'>
+            Log In 
+          </Link>
+        </div>
+      </nav>
+      <div className="max-w-7xl mx-auto md:p-5">
         {/* Header Section */}
         <div className="flex items-center mb-6">
           <Button
