@@ -13,12 +13,40 @@ import HomeIcon from '@mui/icons-material/Home';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import PlaylistIcon from '@mui/icons-material/PlaylistPlay';
 import Link from 'next/link';
+import jwtDecode from "jwt-decode";
+import { useEffect } from "react"
 
 export default function Home() {
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [result, setResult] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+      const decoded: any = jwtDecode(token);
+      const exp = decoded.exp * 1000;
+      if (Date.now() < exp) {
+        setUserEmail(decoded.sub); // assuming sub = email
+      } else {
+        localStorage.removeItem("token");
+      }
+    } catch {
+      localStorage.removeItem("token");
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUserEmail(null);
+    router.refresh(); // refresh UI
+  };
 
   const handleAudioUpload = async () => {
     if (!audioFile) return;
@@ -107,14 +135,38 @@ export default function Home() {
     </div>
   </div>
   {/* Right side - Sign Up */}
-  <div className="flex-1 flex justify-end">
-    <Link 
-      href="/signup"
-      className="border border-white/20 text-white hover:bg-white/10 hover:border-white/40 px-4 py-2 rounded-lg transition-all duration-200"
-    >
-      Sign Up
-    </Link>
+  {/* Right side - Auth Display */}
+  <div className="flex-1 flex justify-end relative">
+    {!userEmail ? (
+      <Link 
+        href="/signup"
+        className="border border-white/20 text-white hover:bg-white/10 hover:border-white/40 px-4 py-2 rounded-lg transition-all duration-200"
+      >
+        Sign Up
+      </Link>
+    ) : (
+      <div className="relative">
+        <button
+          onClick={() => setShowDropdown(!showDropdown)}
+          className="flex items-center space-x-2 border border-white/20 text-white hover:bg-white/10 px-4 py-2 rounded-lg transition-all duration-200"
+        >
+          <div className="w-6 h-6 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center text-sm font-bold">U</div>
+          <span>{userEmail}</span>
+        </button>
+        {showDropdown && (
+          <div className="absolute right-0 mt-2 w-32 bg-gray-800 border border-gray-600 rounded shadow-lg z-10">
+            <button
+              onClick={handleLogout}
+              className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-700"
+            >
+              Log Out
+            </button>
+          </div>
+        )}
+      </div>
+    )}
   </div>
+
 </nav>
 
   <div className="p-6">

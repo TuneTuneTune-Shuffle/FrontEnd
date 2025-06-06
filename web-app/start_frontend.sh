@@ -9,6 +9,7 @@ cd "$(dirname "$0")"
 # Install dependencies
 echo "📦 Installing frontend dependencies..."
 npm install
+npm install jwt-decode
 
 # Start the frontend using pm2
 echo "🚀 Starting frontend with pm2..."
