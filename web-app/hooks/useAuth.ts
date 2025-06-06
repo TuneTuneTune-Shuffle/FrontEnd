@@ -6,34 +6,37 @@ import jwtDecode from "jwt-decode";
 
 interface AuthResult {
   userEmail: string | null;
+  isReady: boolean;
   logout: () => void;
 }
 
 export function useAuth(): AuthResult {
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [isReady, setIsReady] = useState(false); // 👈 new flag
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) return;
-
-    try {
-      const decoded: any = jwtDecode(token);
-      const exp = decoded.exp * 1000;
-      if (Date.now() < exp) {
-        setUserEmail(decoded.sub); // sub = email
-      } else {
+    if (token) {
+      try {
+        const decoded: any = jwtDecode(token);
+        const exp = decoded.exp * 1000;
+        if (Date.now() < exp) {
+          setUserEmail(decoded.sub);
+        } else {
+          localStorage.removeItem("token");
+        }
+      } catch {
         localStorage.removeItem("token");
       }
-    } catch {
-      localStorage.removeItem("token");
     }
+    setIsReady(true); // ✅ only set ready after auth check
   }, []);
 
   const logout = () => {
     localStorage.removeItem("token");
     setUserEmail(null);
-    window.location.reload(); // ensures UI resets across components
+    window.location.reload(); // reload UI completely
   };
 
-  return { userEmail, logout };
+  return { userEmail, logout, isReady };
 }

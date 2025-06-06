@@ -23,8 +23,9 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const { userEmail, logout } = useAuth();
+  const { userEmail, logout, isReady } = useAuth();
   const [showDropdown, setShowDropdown] = useState(false);
+
 
 
   const handleAudioUpload = async () => {
@@ -74,6 +75,7 @@ export default function Home() {
   },
 };
 
+  if (!isReady) return null;
   return (
 <main className="min-h-screen bg-gre-500">
 <nav className="bg-gradient-to-r from-gray-900 to-gray-800 p-4 flex items-center shadow-lg border-b border-gray-700">
@@ -197,7 +199,7 @@ export default function Home() {
           </Button>
         </div>
       )}
-      
+
     </div>
 
     {/* Charts section - full width */}
