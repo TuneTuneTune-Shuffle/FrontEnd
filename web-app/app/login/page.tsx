@@ -1,5 +1,7 @@
 "use client";
 
+// This is the app/login/page.tsx
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,13 +21,15 @@ export default function LoginPage() {
   const router = useRouter();
 
   const handleLogin = async () => {
-    try {
-      await login(email, password);
-      router.push('/');
-    } catch (err: any) {
-      setError(err.message);
-    }
-  };
+  try {
+    const response = await login(email, password); // get token
+    localStorage.setItem("token", response.access_token); // save token
+    router.push('/'); // redirect
+  } catch (err: any) {
+    setError(err.message);
+  }
+};
+
 
   return (
     <main className="min-h-screen bg-gray-950 text-white">

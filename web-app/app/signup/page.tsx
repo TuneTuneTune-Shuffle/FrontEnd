@@ -1,11 +1,13 @@
 "use client";
 
+// This is the app/signup/page.tsx
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
-import { signup } from '@/lib/api';
+import { signup, login } from '@/lib/api';
 import Link from 'next/link';
 import HomeIcon from '@mui/icons-material/Home';
 import BarChartIcon from '@mui/icons-material/BarChart';
@@ -20,18 +22,23 @@ export default function SignupPage() {
   const router = useRouter();
 
   const handleSignup = async () => {
-  if (password !== confirmPassword) {
-    setError("Passwords do not match");
-    return;
-  }
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
 
-  try {
-    await signup(email, password);
-    router.push('/');
-  } catch (err: any) {
-    setError(err.message);
-  }
-    };
+    try {
+      await signup(email, password); // intenta crear el usuario
+      const loginResponse = await login(email, password); // login automático
+
+      // Guardar token en localStorage
+      localStorage.setItem("token", loginResponse.token);
+
+      router.push('/');
+    } catch (err: any) {
+      setError(err.message); // puede venir de signup o login
+    }
+  };
 
   return (
     <main className="min-h-screen bg-gray-950 text-white">
