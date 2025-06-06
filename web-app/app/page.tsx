@@ -15,6 +15,7 @@ import PlaylistIcon from '@mui/icons-material/PlaylistPlay';
 import Link from 'next/link';
 import jwtDecode from "jwt-decode";
 import { useEffect } from "react"
+import { useAuth } from '@/hooks/useAuth';
 
 export default function Home() {
   const [audioFile, setAudioFile] = useState<File | null>(null);
@@ -22,31 +23,9 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const { userEmail, logout } = useAuth();
   const [showDropdown, setShowDropdown] = useState(false);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
-
-    try {
-      const decoded: any = jwtDecode(token);
-      const exp = decoded.exp * 1000;
-      if (Date.now() < exp) {
-        setUserEmail(decoded.sub); // assuming sub = email
-      } else {
-        localStorage.removeItem("token");
-      }
-    } catch {
-      localStorage.removeItem("token");
-    }
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setUserEmail(null);
-    router.refresh(); // refresh UI
-  };
 
   const handleAudioUpload = async () => {
     if (!audioFile) return;
@@ -134,16 +113,22 @@ export default function Home() {
       </Link>
     </div>
   </div>
-  {/* Right side - Sign Up */}
-  {/* Right side - Auth Display */}
   <div className="flex-1 flex justify-end relative">
     {!userEmail ? (
-      <Link 
-        href="/signup"
-        className="border border-white/20 text-white hover:bg-white/10 hover:border-white/40 px-4 py-2 rounded-lg transition-all duration-200"
-      >
-        Sign Up
-      </Link>
+      <div className="flex space-x-4">
+        <Link 
+          href="/login"
+          className="border border-white/20 text-white hover:bg-white/10 hover:border-white/40 px-4 py-2 rounded-lg transition-all duration-200"
+        >
+          Log In
+        </Link>
+        <Link 
+          href="/signup"
+          className="border border-white/20 text-white hover:bg-white/10 hover:border-white/40 px-4 py-2 rounded-lg transition-all duration-200"
+        >
+          Sign Up
+        </Link>
+      </div>
     ) : (
       <div className="relative">
         <button
@@ -156,7 +141,7 @@ export default function Home() {
         {showDropdown && (
           <div className="absolute right-0 mt-2 w-32 bg-gray-800 border border-gray-600 rounded shadow-lg z-10">
             <button
-              onClick={handleLogout}
+              onClick={logout}
               className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-700"
             >
               Log Out
@@ -204,12 +189,15 @@ export default function Home() {
         </CardContent>
       </Card>
 
-      <div className="text-center mt-8">
-        <p className="text-gray-400">Need an account?</p>
-        <Button variant="link" onClick={() => router.push('/signup')}>
-          Sign Up Here
-        </Button>
-      </div>
+      {!userEmail && (
+        <div className="text-center mt-8">
+          <p className="text-gray-400">Need an account?</p>
+          <Button variant="link" onClick={() => router.push('/signup')}>
+            Sign Up Here
+          </Button>
+        </div>
+      )}
+      
     </div>
 
     {/* Charts section - full width */}
