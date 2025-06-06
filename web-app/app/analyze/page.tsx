@@ -1,5 +1,7 @@
 "use client";
 
+// This is the app/analyze/page.tsx
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';

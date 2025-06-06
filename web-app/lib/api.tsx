@@ -1,3 +1,5 @@
+// This is the lib/api.tsx
+
 const BASE_URL = process.env.NEXT_PUBLIC_NGINX_URL!;
 
 export async function signup(email: string, password: string) {

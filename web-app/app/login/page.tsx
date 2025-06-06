@@ -1,5 +1,7 @@
 "use client";
 
+// This is the app/login/page.tsx
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';

@@ -1,5 +1,7 @@
 "use client";
 
+// This is the app/signup/page.tsx
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -27,7 +29,7 @@ export default function SignupPage() {
   } catch (err: any) {
     setError(err.message);
   }
-    };
+};
 
   return (
     <main className="min-h-screen bg-gray-950 text-white">
