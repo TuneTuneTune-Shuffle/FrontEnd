@@ -1,6 +1,6 @@
 // This is the lib/api.tsx
 
-const BASE_URL = process.env.NEXT_PUBLIC_NGINX_URL!;
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL!;
 
 export async function signup(email: string, password: string) {
     const response = await fetch(`${BASE_URL}/api/signup`, {
