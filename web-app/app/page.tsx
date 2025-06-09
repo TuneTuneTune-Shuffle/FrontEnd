@@ -16,6 +16,9 @@ import Link from 'next/link';
 import jwtDecode from "jwt-decode";
 import { useEffect } from "react"
 import { useAuth } from '@/hooks/useAuth';
+import { twMerge } from 'tailwind-merge';
+
+
 
 export default function Home() {
   const [audioFile, setAudioFile] = useState<File | null>(null);
@@ -26,6 +29,12 @@ export default function Home() {
   const { userEmail, logout, isReady } = useAuth();
   const [showDropdown, setShowDropdown] = useState(false);
 
+  const [pulse, setPulse] = useState(false);
+
+  const triggerPulse = () => {
+    setPulse(true);
+    setTimeout(() => setPulse(false), 500); // reset after animation
+  };
 
 
   const handleAudioUpload = async () => {
@@ -77,8 +86,8 @@ export default function Home() {
 
   if (!isReady) return null;  
   return (
-<main className="min-h-screen bg-gre-500">
-<nav className="bg-gradient-to-r from-gray-900 to-gray-800 p-4 flex items-center shadow-lg border-b border-gray-700">
+    <main className="min-h-screen bg-gre-500">
+      <nav className="bg-gradient-to-r from-gray-900 to-gray-800 p-4 flex items-center shadow-lg border-b border-gray-700">
   {/* Logo/Brand - Left section */}
   <div className="flex-1">
     <Link href="/" className="flex items-center space-x-2">
@@ -117,20 +126,24 @@ export default function Home() {
   </div>
   <div className="flex-1 flex justify-end relative">
     {!userEmail ? (
-      <div className="flex space-x-4">
-        <Link 
-          href="/login"
-          className="border border-white/20 text-white hover:bg-white/10 hover:border-white/40 px-4 py-2 rounded-lg transition-all duration-200"
-        >
-          Log In
-        </Link>
-        <Link 
-          href="/signup"
-          className="border border-white/20 text-white hover:bg-white/10 hover:border-white/40 px-4 py-2 rounded-lg transition-all duration-200"
-        >
-          Sign Up
-        </Link>
-      </div>
+      <motion.div
+        className="flex space-x-4"
+        animate={pulse ? { scale: [1, 1.1, 1] } : {}}
+        transition={{ duration: 0.4 }}
+      >
+      <Link 
+        href="/login"
+        className="border border-white/20 text-white hover:bg-white/10 hover:border-white/40 px-4 py-2 rounded-lg transition-all duration-200"
+      >
+        Log In
+      </Link>
+      <Link 
+        href="/signup"
+        className="border border-white/20 text-white hover:bg-white/10 hover:border-white/40 px-4 py-2 rounded-lg transition-all duration-200"
+      >
+        Sign Up
+      </Link>
+    </motion.div>
     ) : (
       <div className="relative">
         <button
@@ -175,9 +188,8 @@ export default function Home() {
             onChange={(e) => setAudioFile(e.target.files?.[0] || null)}
           />
           <Button
-            onClick={handleAudioUpload}
-            disabled={loading || !audioFile}
-            className="w-full"
+            onClick={userEmail ? handleAudioUpload : triggerPulse}
+            className={twMerge("w-full", (!userEmail || loading || !audioFile) && "opacity-50 cursor-not-allowed")}
           >
             {loading ? 'Processing...' : 'Upload & Process'}
           </Button>

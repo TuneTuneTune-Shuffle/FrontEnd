@@ -1,6 +1,6 @@
 // This is the lib/api.tsx
 
-const BASE_URL = process.env.NEXT_PUBLIC_NGINX_URL!;
+const BASE_URL = process.env.NEXT_PUBLIC_URL!;
 
 export async function signup(email: string, password: string) {
     const response = await fetch(`${BASE_URL}/api/signup`, {
@@ -20,21 +20,34 @@ export async function signup(email: string, password: string) {
 }
 
 export async function login(email: string, password: string) {
-    const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-    });
+  const response = await fetch(`${BASE_URL}/api/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email, password }),
+  });
 
-    if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.message || 'Login failed');
+  if (!response.ok) {
+    let message = 'Login failed';
+    try {
+      const data = await response.json();
+      if (response.status === 401) {
+        message = 'Invalid email or password';
+      } else if (response.status === 500) {
+        message = 'Server error, please try again later';
+      } else if (data.message) {
+        message = data.message;
+      }
+    } catch {
+      message = 'Unexpected error during login';
     }
+    throw new Error(message);
+  }
 
-    return await response.json();
-} 
+  return await response.json();
+}
+
 
 export function logout() {
   localStorage.removeItem("token");
