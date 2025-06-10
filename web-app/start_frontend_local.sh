@@ -10,6 +10,7 @@ cd "$(dirname "$0")"
 echo "📦 Installing frontend dependencies..."
 npm install
 npm install jwt-decode
+npm install react-media-recorder
 
 # Start the frontend using pm2
 echo "🚀 Starting frontend with pm2..."

@@ -13,7 +13,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import PlaylistIcon from '@mui/icons-material/PlaylistPlay';
 import Link from 'next/link';
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { useEffect } from "react"
 import { useAuth } from '@/hooks/useAuth';
 import { processAudio } from '@/lib/api';

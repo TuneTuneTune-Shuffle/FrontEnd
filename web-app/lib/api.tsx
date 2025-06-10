@@ -54,8 +54,6 @@ export function logout() {
 }
 
 export async function processAudio(audioFile: File) {
-//   console.log("Using BASE_URL:", BASE_URL); // 🔍 Debug here
-
   const formData = new FormData();
   formData.append("file", audioFile); // must match 'file' param in FastAPI
 
