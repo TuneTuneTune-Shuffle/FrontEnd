@@ -48,8 +48,29 @@ export async function login(email: string, password: string) {
   return await response.json();
 }
 
-
 export function logout() {
   localStorage.removeItem("token");
   window.location.href = "/login"; // redirect to login page
+}
+
+export async function processAudio(audioFile: File) {
+//   console.log("Using BASE_URL:", BASE_URL); // 🔍 Debug here
+
+  const formData = new FormData();
+  formData.append("file", audioFile); // must match 'file' param in FastAPI
+
+  const response = await fetch(`${BASE_URL}/api/predict`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    const data = await response.json();
+    throw new Error(data.detail || "Audio processing failed");
+  }
+
+  return await response.json(); // { genre, confidence }
 }
